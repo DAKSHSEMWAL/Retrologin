@@ -2,7 +2,7 @@ package com.kuro.daksh.retrologin.POJO;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CreateUserResponse {
+public class User {
 
     @SerializedName("name")
     public String name;
@@ -12,4 +12,9 @@ public class CreateUserResponse {
     public String id;
     @SerializedName("createdAt")
     public String createdAt;
+
+    public User(String name, String job) {
+        this.name = name;
+        this.job = job;
+    }
 }

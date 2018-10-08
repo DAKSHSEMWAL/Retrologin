@@ -1,4 +1,4 @@
-package com.kuro.daksh.retrologin.POJO;
+package com.kuro.daksh.retrologin;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
