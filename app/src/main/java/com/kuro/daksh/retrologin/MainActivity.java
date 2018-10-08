@@ -20,12 +20,14 @@ public class MainActivity extends AppCompatActivity {
 
     TextView responseText;
     APIInterface apiInterface;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        responseText = findViewById(R.id.responseText);
+        responseText = (TextView) findViewById(R.id.responseText);
         apiInterface = APIClient.getClient().create(APIInterface.class);
+
 
         /**
          GET List Resources
@@ -34,7 +36,10 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<MultipleResource>() {
             @Override
             public void onResponse(Call<MultipleResource> call, Response<MultipleResource> response) {
+
+
                 Log.d("TAG",response.code()+"");
+
                 String displayResponse = "";
 
                 MultipleResource resource = response.body();
@@ -43,13 +48,14 @@ public class MainActivity extends AppCompatActivity {
                 Integer totalPages = resource.totalPages;
                 List<MultipleResource.Datum> datumList = resource.data;
 
-                displayResponse += text + "Page\n" + total + "Total\n" + totalPages + "Total Pages \n";
+                displayResponse += text + " Page\n" + total + " Total\n" + totalPages + " Total Pages\n";
 
-                for (MultipleResource.Datum datum : datumList)
-                {
+                for (MultipleResource.Datum datum : datumList) {
                     displayResponse += datum.id + " " + datum.name + " " + datum.pantoneValue + " " + datum.year + "\n";
                 }
+
                 responseText.setText(displayResponse);
+
             }
 
             @Override
@@ -58,10 +64,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*
-          Create A New User
-         */
-        final User user = new User("Asta","leader");
+        /**
+         Create new user
+         **/
+        User user = new User("morpheus", "leader");
         Call<User> call1 = apiInterface.createUser(user);
         call1.enqueue(new Callback<User>() {
             @Override
@@ -69,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 User user1 = response.body();
 
                 Toast.makeText(getApplicationContext(), user1.name + " " + user1.job + " " + user1.id + " " + user1.createdAt, Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -77,22 +84,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        Get User List
-         */
+        /**
+         GET List Users
+         **/
         Call<UserList> call2 = apiInterface.doGetUserList("2");
         call2.enqueue(new Callback<UserList>() {
             @Override
             public void onResponse(Call<UserList> call, Response<UserList> response) {
+
                 UserList userList = response.body();
                 Integer text = userList.page;
                 Integer total = userList.total;
                 Integer totalPages = userList.totalPages;
                 List<UserList.Datum> datumList = userList.data;
-                for (UserList.Datum datum : datumList)
-                {
+                Toast.makeText(getApplicationContext(), text + " page\n" + total + " total\n" + totalPages + " totalPages\n", Toast.LENGTH_SHORT).show();
+
+                for (UserList.Datum datum : datumList) {
                     Toast.makeText(getApplicationContext(), "id : " + datum.id + " name: " + datum.first_name + " " + datum.last_name + " avatar: " + datum.avatar, Toast.LENGTH_SHORT).show();
                 }
+
 
             }
 
@@ -101,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 call.cancel();
             }
         });
+
 
         /**
          POST name and job Url encoded.
@@ -127,5 +138,6 @@ public class MainActivity extends AppCompatActivity {
                 call.cancel();
             }
         });
+
     }
 }
