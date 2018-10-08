@@ -15,7 +15,7 @@ public class UserList {
     @SerializedName("total_pages")
     public Integer totalPages;
     @SerializedName("data")
-    public List<MultipleResource.Datum> data = new ArrayList<>();
+    public List<UserList.Datum> data = new ArrayList<>();
     public class Datum
     {
         @SerializedName("id")
